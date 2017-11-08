@@ -1,6 +1,4 @@
-'use strict';
-
-const pThrottle = (fn, limit, interval) => {
+function pThrottle(fn, limit, interval) {
 	if (!Number.isFinite(limit)) {
 		throw new TypeError('Expected `limit` to be a finite number');
 	}
@@ -10,23 +8,25 @@ const pThrottle = (fn, limit, interval) => {
 	}
 
 	const queue = [];
-	const timeouts = new Set();
+	let timeouts = [];
 	let activeCount = 0;
 
-	const next = () => {
+	const next = function () {
 		activeCount++;
 
-		const id = setTimeout(() => {
+		const id = setTimeout(function () {
 			activeCount--;
 
 			if (queue.length > 0) {
 				next();
 			}
 
-			timeouts.delete(id);
+			timeouts = timeouts.filter(currentId => currentId !== id);
 		}, interval);
 
-		timeouts.add(id);
+		if (timeouts.indexOf(id) < 0) {
+			timeouts.push(id);
+		}
 
 		const x = queue.shift();
 		x.resolve(fn.apply(x.self, x.args));
@@ -49,11 +49,11 @@ const pThrottle = (fn, limit, interval) => {
 		});
 	};
 
-	throttled.abort = () => {
+	throttled.abort = function () {
 		for (const id of timeouts) {
 			clearTimeout(id);
 		}
-		timeouts.clear();
+		timeouts = [];
 
 		for (const x of queue) {
 			x.reject(new pThrottle.AbortError());
@@ -62,13 +62,13 @@ const pThrottle = (fn, limit, interval) => {
 	};
 
 	return throttled;
-};
+}
 
-pThrottle.AbortError = class AbortError extends Error {
-	constructor() {
-		super('Throttled function aborted');
-		this.name = 'AbortError';
-	}
-};
+function AbortError() {
+	Error.call(this, 'Throttled function aborted');
+	this.name = 'AbortError';
+}
+
+pThrottle.AbortError = AbortError;
 
 module.exports = pThrottle;
