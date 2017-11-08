@@ -6,6 +6,7 @@ It also works with normal functions.
 
 Useful for rate limiting calls to an external API, for example.
 
+**NOTE**: This is a fork of [p-throttle](https://www.npmjs.com/package/p-throttle), but without ES6 in the source code.
 
 ## Install
 
