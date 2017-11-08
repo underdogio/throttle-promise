@@ -40,9 +40,9 @@ function throttle(fn, limit, interval) {
 
 		return new Promise(function (resolve, reject) {
 			queue.push({
-				resolve,
-				reject,
-				args,
+				resolve: resolve,
+				reject: reject,
+				args: args,
 				self: that
 			});
 
