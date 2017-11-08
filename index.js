@@ -7,14 +7,14 @@ function throttle(fn, limit, interval) {
 		throw new TypeError('Expected `interval` to be a finite number');
 	}
 
-	const queue = [];
-	let timeouts = [];
-	let activeCount = 0;
+	var queue = [];
+	var timeouts = [];
+	var activeCount = 0;
 
-	const next = function () {
+	var next = function () {
 		activeCount++;
 
-		const id = setTimeout(function () {
+		var id = setTimeout(function () {
 			activeCount--;
 
 			if (queue.length > 0) {
@@ -30,13 +30,13 @@ function throttle(fn, limit, interval) {
 			timeouts.push(id);
 		}
 
-		const x = queue.shift();
+		var x = queue.shift();
 		x.resolve(fn.apply(x.self, x.args));
 	};
 
-	const throttled = function () {
-		const args = arguments;
-		const that = this;
+	var throttled = function () {
+		var args = arguments;
+		var that = this;
 
 		return new Promise(function (resolve, reject) {
 			queue.push({
@@ -53,12 +53,12 @@ function throttle(fn, limit, interval) {
 	};
 
 	throttled.abort = function () {
-		for (const id of timeouts) {
+		for (var id of timeouts) {
 			clearTimeout(id);
 		}
 		timeouts = [];
 
-		for (const x of queue) {
+		for (var x of queue) {
 			x.reject(new throttle.AbortError());
 		}
 		queue.length = 0;
