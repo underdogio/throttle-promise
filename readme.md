@@ -1,4 +1,4 @@
-# p-throttle [![Build Status](https://travis-ci.org/sindresorhus/p-throttle.svg?branch=master)](https://travis-ci.org/sindresorhus/p-throttle)
+# throttle-promise
 
 > [Throttle](https://css-tricks.com/debouncing-throttling-explained-examples/) promise-returning & async functions
 
@@ -11,7 +11,7 @@ Useful for rate limiting calls to an external API, for example.
 ## Install
 
 ```
-$ npm install --save p-throttle
+$ npm install throttle-promise
 ```
 
 
@@ -20,11 +20,11 @@ $ npm install --save p-throttle
 Here, the trottled function is only called twice a second:
 
 ```js
-const pThrottle = require('p-throttle');
+const throttle = require('throttle-promise');
 
 const now = Date.now();
 
-const throttled = pThrottle(i => {
+const throttled = throttle(i => {
 	const secDiff = ((Date.now() - now) / 1000).toFixed();
 	return Promise.resolve(`${i}: ${secDiff}s`);
 }, 2, 1000);
@@ -43,7 +43,7 @@ for (let i = 1; i <= 6; i++) {
 
 ## API
 
-### pThrottle(fn, limit, interval)
+### throttle(fn, limit, interval)
 
 Returns a throttled version of `fn`.
 
@@ -67,7 +67,7 @@ Timespan for `limit` in milliseconds.
 
 ### throttledFn.abort()
 
-Abort pending executions. All unresolved promises are rejected with a `pThrottle.AbortError` error.
+Abort pending executions. All unresolved promises are rejected with a `throttle.AbortError` error.
 
 
 ## Related
