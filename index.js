@@ -21,7 +21,9 @@ function throttle(fn, limit, interval) {
 				next();
 			}
 
-			timeouts = timeouts.filter(currentId => currentId !== id);
+			timeouts = timeouts.filter(function (currentId) {
+				return currentId !== id;
+			});
 		}, interval);
 
 		if (timeouts.indexOf(id) < 0) {
@@ -34,13 +36,14 @@ function throttle(fn, limit, interval) {
 
 	const throttled = function () {
 		const args = arguments;
+		const that = this;
 
-		return new Promise((resolve, reject) => {
+		return new Promise(function (resolve, reject) {
 			queue.push({
 				resolve,
 				reject,
 				args,
-				self: this
+				self: that
 			});
 
 			if (activeCount < limit) {
