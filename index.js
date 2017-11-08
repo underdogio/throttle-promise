@@ -53,14 +53,12 @@ function throttle(fn, limit, interval) {
 	};
 
 	throttled.abort = function () {
-		for (var id of timeouts) {
-			clearTimeout(id);
-		}
+		timeouts.forEach(clearTimeout);
 		timeouts = [];
 
-		for (var x of queue) {
+		queue.forEach(function (x) {
 			x.reject(new throttle.AbortError());
-		}
+		});
 		queue.length = 0;
 	};
 
