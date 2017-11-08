@@ -1,4 +1,4 @@
-function pThrottle(fn, limit, interval) {
+function throttle(fn, limit, interval) {
 	if (!Number.isFinite(limit)) {
 		throw new TypeError('Expected `limit` to be a finite number');
 	}
@@ -56,7 +56,7 @@ function pThrottle(fn, limit, interval) {
 		timeouts = [];
 
 		for (const x of queue) {
-			x.reject(new pThrottle.AbortError());
+			x.reject(new throttle.AbortError());
 		}
 		queue.length = 0;
 	};
@@ -69,6 +69,6 @@ function AbortError() {
 	this.name = 'AbortError';
 }
 
-pThrottle.AbortError = AbortError;
+throttle.AbortError = AbortError;
 
-module.exports = pThrottle;
+module.exports = throttle;
