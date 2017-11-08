@@ -1,6 +1,6 @@
 {
   "name": "throttle-promise",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Throttle promise-returning & async functions",
   "license": "MIT",
   "repository": "underdogio/throttle-promise",
